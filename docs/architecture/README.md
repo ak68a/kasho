@@ -213,5 +213,4 @@ When adding new architecture documentation:
 
 - Check the [Development Guide](./../development/README.md)
 - Review the [API Documentation](./../api/README.md)
-- Contact the architecture team
 - Open an issue for documentation improvements 

@@ -76,6 +76,63 @@ This document explains our technology choices and how they contribute to buildin
 - Makes database changes trackable
 - Simplifies database maintenance
 
+### Gin
+**What it is:**
+- High-performance web framework for Go
+- Provides routing, middleware, and HTTP utilities
+
+**Why it's great for Fintech:**
+- **Performance**: One of the fastest Go web frameworks
+- **Middleware**: Built-in support for authentication, logging, and CORS
+- **Validation**: Strong request validation capabilities
+- **Error Handling**: Structured error responses
+- **Security**: Built-in protection against common web vulnerabilities
+
+**In Kasho:**
+- Handles HTTP routing
+- Manages API endpoints
+- Provides middleware for authentication
+- Structures API responses
+- Validates incoming requests
+
+### Viper
+**What it is:**
+- Configuration management solution for Go
+- Supports multiple configuration formats and sources
+
+**Why it's great for Fintech:**
+- **Security**: Secure handling of sensitive configuration
+- **Flexibility**: Multiple configuration sources (files, env vars)
+- **Type Safety**: Strong typing for configuration values
+- **Environment Support**: Easy management of different environments
+- **Hot Reloading**: Can update configuration without restart
+
+**In Kasho:**
+- Manages application configuration
+- Handles environment variables
+- Secures sensitive database credentials
+- Supports different deployment environments
+- Provides type-safe configuration access
+
+### CompileDaemon
+**What it is:**
+- Development tool for Go applications
+- Provides hot reloading during development
+
+**Why it's great for Fintech:**
+- **Development Speed**: Faster development cycle
+- **Reliability**: Automatic restart on code changes
+- **Productivity**: No manual server restarts needed
+- **Consistency**: Same behavior across development environments
+- **Error Detection**: Immediate feedback on code changes
+
+**In Kasho:**
+- Enables hot reloading during development
+- Automatically rebuilds on code changes
+- Improves development workflow
+- Provides immediate feedback
+- Maintains consistent development experience
+
 ### Database Migrations
 **What it is:**
 - Version control for database schema

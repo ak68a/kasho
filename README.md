@@ -4,12 +4,21 @@ A modern fintech application built with Go and React.
 
 ## Prerequisites
 
+### Backend
 - Go 1.21 or later
 - Docker and Docker Compose
 - PostgreSQL 15 (handled via Docker)
-- Node.js 18 or later (for frontend)
 - sqlc (for database code generation)
+- CompileDaemon (for hot reload during development)
+- Key Go packages (automatically installed via `go mod tidy`):
+  - Gin (web framework)
+  - Viper (configuration management)
+  - lib/pq (PostgreSQL driver)
 - make (optional, for using make commands)
+
+### Frontend
+- Node.js 18 or later
+- Yarn (package manager)
 
 ## Getting Started
 
