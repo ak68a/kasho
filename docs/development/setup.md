@@ -37,6 +37,9 @@ This guide will help you get started with development on the Kasho project.
    
    # Generate database code
    make sqlc
+
+   # Run API server
+   make start
    
    # Run tests
    go test ./...
@@ -63,12 +66,15 @@ This guide will help you get started with development on the Kasho project.
    - Rollback migrations: `make m_down`
    - Generate code: `make sqlc`
 
-2. **Testing**
+2. **API Server**
+    - Run server: `make start`
+
+3. **Testing**
    - Run all tests: `go test ./...`
    - Run specific test: `go test ./db/tests -run TestName`
    - Run with coverage: `go test ./... -cover`
 
-3. **Code Style**
+4. **Code Style**
    - Use `gofmt` for formatting
    - Follow Go best practices
    - Write tests for new features

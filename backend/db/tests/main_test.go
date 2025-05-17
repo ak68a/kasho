@@ -9,12 +9,18 @@ import (
 	_ "github.com/lib/pq"
 
 	db "github/kasho/backend/db/sqlc"
+	"github/kasho/backend/utils"
 )
 
 var testQuery *db.Queries
 
 func TestMain(m *testing.M) {
-	conn, err := sql.Open("postgres", "postgresql://root:root@localhost:5432/kasho_db?sslmode=disable")
+	config, err := utils.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("Could not load env config", err)
+	}
+
+	conn, err := sql.Open(config.DBdriver, config.DB_source)
 	if err != nil {
 		log.Fatal("Could not connect to database", err)
 	}

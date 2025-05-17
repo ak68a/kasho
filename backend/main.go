@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import "github/kasho/backend/api"
 
 func main() {
-	fmt.Println("Hello, World!")
+	// api.NewServer(3000)
+
+	server := api.NewServer(".")
+	server.Start(3000)
 }

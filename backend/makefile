@@ -26,3 +26,10 @@ m_down:
 
 sqlc:
 	sqlc generate
+
+start:
+	# start the backend server
+	CompileDaemon -command="./backend" 
+
+test:
+	go test -v -cover ./...

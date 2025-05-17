@@ -62,6 +62,33 @@ Note: The generated code is committed to the repository, so you only need to run
 go test ./...
 ```
 
+7. Run the API server:
+```bash
+# Without hot reload using CompileDaemon
+go run main.go
+
+# Using make
+make start
+
+# OR manually
+go get github.com/githubnemo/CompileDaemon@latest
+go install github.com/githubnemo/CompileDaemon@latest
+CompileDaemon -command="./backend"
+
+# Troubleshooting
+#---
+# zsh: command not found: CompileDaemon -> run
+echo 'export PATH="$PATH:$(go env GOPATH)/bin"' >> ~/.zshrc
+
+# Or manually add to your ~/.zshrc file
+export PATH="$PATH:$(go env GOPATH)/bin"
+
+#---
+# If CompileDaemon runs but hands on "Build ok." -> run
+CompileDaemon -command="./backend" -build="go build -o backend main.go"
+
+```
+
 ### Frontend Setup
 
 1. Install dependencies:
@@ -82,8 +109,9 @@ The frontend will be available at `http://localhost:3000`
 ```
 .
 ├── backend/
+├── ├── api/             
 │   ├── db/
-│   │   ├── migrations/    # Database migrations
+│   │   ├── migrations/   # Database migrations
 │   │   ├── queries/      # SQL queries
 │   │   ├── sqlc/         # Generated database code
 │   │   └── tests/        # Database tests
@@ -120,6 +148,9 @@ make m_down                   # Roll back migrations
 
 # Code Generation
 make sqlc                     # Generate database code
+
+# API Server
+make start                    # Run API server w/ hot reload
 ```
 
 ### Database Migrations
@@ -140,7 +171,14 @@ make sqlc
 
 Run the test suite:
 ```bash
+# Using make
+make test
+
+# OR manually
 cd backend
 go test ./...
+
+# Test w/ verbose output and coverage report
+go test -v -cover ./...
 ```
 

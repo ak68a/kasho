@@ -39,7 +39,7 @@ Integration guides:
 ## API Overview
 
 ### Base URL
-- Development: `http://localhost:8080/api/v1`
+- Development: `http://localhost:3000/api/v1`
 - Staging: `https://api.staging.kasho.com/v1`
 - Production: `https://api.kasho.com/v1`
 

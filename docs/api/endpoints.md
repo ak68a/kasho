@@ -5,7 +5,7 @@ This document outlines the API endpoints, request/response formats, and authenti
 
 ## Base URL
 ```
-http://localhost:8080/api/v1  # Development
+http://localhost:3000/api/v1  # Development
 https://api.kasho.com/v1      # Production
 ```
 
