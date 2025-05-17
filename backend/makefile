@@ -24,3 +24,5 @@ m_down:
 	# run migrate down
 	migrate -path db/migrations -database "postgres://root:root@localhost:5432/kasho_db?sslmode=disable" down
 
+sqlc:
+	sqlc generate
