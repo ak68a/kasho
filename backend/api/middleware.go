@@ -28,7 +28,7 @@ func AuthenticatedMiddleware() gin.HandlerFunc {
 
 		userId, err := tokenController.VerifyToken(tokenSplit[1])
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Could not verify token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 			c.Abort()
 			return
 		}
