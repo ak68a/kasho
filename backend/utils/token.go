@@ -7,6 +7,9 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+type JWTToken struct {
+	config *Config
+}
 
 type jwtClaim struct {
 	jwt.StandardClaims
@@ -14,15 +17,20 @@ type jwtClaim struct {
 	Exp int64 `json:"exp"`
 }
 
-func CreateToken(userID int64, signingKey string) (string, error) {
+func NewJWTToken(config *Config) *JWTToken {
+	return &JWTToken{config: config}
+}
+
+func (j * JWTToken) CreateToken(userID int64) (string, error) {
 	claims := jwtClaim{
 		UserID: userID,
-		Exp: time.Now().Add(time.Minute * 30).Unix(),
+		// Exp: time.Now().Add(time.Minute * 30).Unix(),
+		Exp: time.Now().Add(time.Hour * 24).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenString, err := token.SignedString([]byte(signingKey))
+	tokenString, err := token.SignedString([]byte(j.config.Signing_key))
 	if err != nil {
 		return "", err
 	}
@@ -30,26 +38,38 @@ func CreateToken(userID int64, signingKey string) (string, error) {
 	return string(tokenString), nil
 }
 
-func VerifyToken(tokenString, signingKey string) (int64, error) {
-	token, err :=jwt.ParseWithClaims(tokenString, &jwtClaim{}, func(t *jwt.Token) (interface{}, error) {
+func (j *JWTToken) VerifyToken(tokenString string) (int64, error) {
+	fmt.Printf("Received token: %s\n", tokenString)
+	
+	token, err := jwt.ParseWithClaims(tokenString, &jwtClaim{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			fmt.Printf("Invalid signing method: %v\n", t.Method)
 			return nil, fmt.Errorf("Invalid token")
 		}
-		return []byte(signingKey), nil
+		fmt.Printf("Using signing key: %s\n", j.config.Signing_key)
+		return []byte(j.config.Signing_key), nil
 	})
 
 	if err != nil {
+		fmt.Printf("Token parsing error: %v\n", err)
 		return 0, err
 	}
 
 	claims, ok := token.Claims.(*jwtClaim)
-	if !ok || !token.Valid {
+	if !ok {
+		fmt.Println("Failed to parse claims")
+		return 0, fmt.Errorf("Invalid token")
+	}
+	if !token.Valid {
+		fmt.Println("Token is invalid")
 		return 0, fmt.Errorf("Invalid token")
 	}
 
 	if claims.Exp < time.Now().Unix() {
+		fmt.Printf("Token expired at %v, current time: %v\n", claims.Exp, time.Now().Unix())
 		return 0, fmt.Errorf("Token expired")
 	}
 
+	fmt.Printf("Token verified successfully for user ID: %v\n", claims.UserID)
 	return claims.UserID, nil
 }
