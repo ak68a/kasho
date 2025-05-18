@@ -53,7 +53,7 @@ func (u *User) createUser(c *gin.Context) {
 		if pgErr, ok := err.(*pq.Error); ok {
 			switch pgErr.Code {
 			case "23505":
-				c.JSON(http.StatusForbidden, gin.H{"error": "email already exists"})
+				c.JSON(http.StatusBadRequest, gin.H{"error": "email already exists"})
 				return
 			}
 		}

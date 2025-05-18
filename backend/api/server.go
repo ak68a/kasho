@@ -16,6 +16,7 @@ import (
 type Server struct {
 	queries *db.Queries
 	router *gin.Engine
+	config *utils.Config
 }
 
 func NewServer(envPath string) *Server {
@@ -36,6 +37,7 @@ func NewServer(envPath string) *Server {
 	return &Server	{
 		queries: q,
 		router: g,
+		config: config,
 	}
 }
 
@@ -45,6 +47,7 @@ func (s *Server) Start(port int) {
 	})
 
 	User{}.router(s)
+	Auth{}.router(s)
 
 	s.router.Run(fmt.Sprintf(":%v", port))
 }
