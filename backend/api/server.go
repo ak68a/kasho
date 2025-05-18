@@ -24,7 +24,7 @@ func NewServer(envPath string) *Server {
 		panic(fmt.Sprintf("Could not load config: %v", err))
 	}
 
-	conn, err := sql.Open(config.DBdriver, config.DB_source)
+	conn, err := sql.Open(config.DBdriver, config.DB_source_live)
 	if err != nil {
 		panic(fmt.Sprintf("Could not connect to database: %v", err))
 	}
@@ -44,10 +44,10 @@ func (s *Server) Start(port int) {
 		ctx.JSON(http.StatusOK, gin.H{"message": "Welcome to Kasho!"})
 	})
 
+	User{}.router(s)
+
 	s.router.Run(fmt.Sprintf(":%v", port))
 }
-
-
 
 // NewServer (OLD)
 // func NewServer(port int) {
