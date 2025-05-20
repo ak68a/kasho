@@ -4,12 +4,28 @@ This guide will help you get started with development on the Kasho project.
 
 ## Prerequisites
 
+### Backend
 - Go 1.21 or later
 - Docker and Docker Compose
+- PostgreSQL 15 (handled via Docker)
+- sqlc (for database code generation)
+- CompileDaemon (for hot reload during development)
+- Key Go packages (automatically installed via `go mod tidy`):
+  - Gin (web framework)
+  - Viper (configuration management)
+  - lib/pq (PostgreSQL driver)
+  - gin-contrib/cors (CORS middleware)
+- make (optional but recommended)
+
+### Frontend
 - Node.js 18 or later
 - Yarn package manager
+- Key frontend packages (automatically installed via `yarn install`):
+  - Next.js (React framework)
+  - Axios (HTTP client)
+  - React Query (data fetching)
+  - Tailwind CSS (styling)
 - Git
-- Make (optional but recommended)
 
 ## Initial Setup
 
@@ -68,6 +84,8 @@ This guide will help you get started with development on the Kasho project.
 
 2. **API Server**
     - Run server: `make start`
+    - CORS is configured to allow requests from `http://localhost:3000`
+    - Modify CORS settings in `backend/api/servier.go` if needed
 
 3. **Testing**
    - Run all tests: `go test ./...`
@@ -87,11 +105,18 @@ This guide will help you get started with development on the Kasho project.
    - Build: `yarn build`
    - Production: `yarn start`
 
-2. **Code Style**
+2. **API Integration**
+   - Axios is configured in `frontend/lib/axios.ts`
+   - API routes are managed in `frontend/utils/network.ts`
+   - Base URL and headers are automatically configured
+   - Token management is handled by interceptors
+
+3. **Code Style**
    - Use TypeScript
    - Follow Next.js best practices
    - Write component tests
    - Use proper typing
+   - Use URL constants for API endpoints
 
 ## Common Tasks
 
@@ -372,3 +397,4 @@ describe('AccountForm', () => {
     await screen.findByText('Account created successfully');
   });
 }); 
+```

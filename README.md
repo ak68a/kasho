@@ -14,11 +14,17 @@ A modern fintech application built with Go and React.
   - Gin (web framework)
   - Viper (configuration management)
   - lib/pq (PostgreSQL driver)
+  - gin-contrib/cors (CORS middleware)
 - make (optional, for using make commands)
 
 ### Frontend
 - Node.js 18 or later
 - Yarn (package manager)
+- Key frontend packages (automatically installed via `yarn install`):
+  - Next.js (React framework)
+  - Axios (HTTP client)
+  - React Query (data fetching)
+  - Tailwind CSS (styling)
 
 ## Getting Started
 
@@ -73,11 +79,11 @@ go test ./...
 
 7. Run the API server:
 ```bash
-# Without hot reload using CompileDaemon
-go run main.go
-
 # Using make
 make start
+
+# Without hot reload using CompileDaemon
+go run main.go
 
 # OR manually
 go get github.com/githubnemo/CompileDaemon@latest
@@ -191,3 +197,46 @@ go test ./...
 go test -v -cover ./...
 ```
 
+### API Integration
+
+#### CORS Configuration
+The backend API is configured with CORS to allow requests from the frontend development server. The CORS middleware is set up in the backend to:
+- Allow requests from `http://localhost:3000` (frontend development server)
+- Support common HTTP methods (GET, POST, PUT, DELETE)
+- Allow necessary headers for authentication and content negotiation
+
+If you need to modify CORS settings, update the configuration in `backend/api/middleware/cors.go`.
+
+#### Axios Setup
+The frontend uses Axios for making HTTP requests to the backend API. The Axios instance is configured in `frontend/lib/axios.ts` with:
+- Base URL configuration for different environments
+- Default headers for content type and authentication
+- Request/response interceptors for error handling
+- Automatic token management
+
+API routes are managed through URL constants in `frontend/utils/network.ts` to maintain consistency and avoid hardcoded strings:
+
+```typescript
+// Example from frontend/utils/network.ts
+export const authUrl = {
+  login: '/auth/login',
+  register: '/auth/register',
+  users: '/users',
+  // ... other auth-related endpoints
+} as const;
+```
+
+Example usage in frontend components:
+```typescript
+import axios from '@/lib/axios';
+
+// Making API requests using URL constants
+const response = await axios.get(authUrl.users);
+const data = await axios.post(authUrl.login, credentials);
+```
+
+### Checking Ports
+
+```bash
+lsof -i :3000 # or any other port you might be using
+```
