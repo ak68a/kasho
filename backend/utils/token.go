@@ -24,9 +24,9 @@ func NewJWTToken(config *Config) *JWTToken {
 func (j * JWTToken) CreateToken(userID int64) (string, error) {
 	claims := jwtClaim{
 		UserID: userID,
-		// Exp: time.Now().Add(time.Minute * 30).Unix(),
+		Exp: time.Now().Add(time.Minute * 30).Unix(),
 		// Exp: time.Now().Add(time.Hour * 24).Unix(),
-		Exp: time.Now().Add(time.Second * 10).Unix(),
+		// Exp: time.Now().Add(time.Second * 60).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
