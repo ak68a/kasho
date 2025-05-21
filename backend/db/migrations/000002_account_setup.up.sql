@@ -10,7 +10,7 @@ CREATE TABLE "accounts" (
 ALTER TABLE "accounts" ADD CONSTRAINT "unique_user_currency"
 UNIQUE (user_id, currency);
 
-CREATE TABLE "entires" (
+CREATE TABLE "entries" (
     id BIGSERIAL PRIMARY KEY,
     account_id INTEGER NOT NULL,
     amount MONEY NOT NULL,
